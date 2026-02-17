@@ -1,0 +1,51 @@
+services:
+  # ============================================
+  # PostgreSQL Database (Development)
+  # ============================================
+  db:
+    image: postgres:16-alpine
+    container_name: bugflow-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: bugflow
+      POSTGRES_PASSWORD: bugflow
+      POSTGRES_DB: bugflow
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bugflow -d bugflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # Next.js Application (Development)
+  # ============================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: bugflow-app-dev
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://bugflow:bugflow@db:5432/bugflow
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-key}
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data_dev:
+
+networks:
+  default:
+    name: bugflow-network-dev

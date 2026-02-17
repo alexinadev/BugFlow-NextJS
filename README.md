@@ -45,11 +45,193 @@ A streamlined ticketing system that connects end-users directly with support tea
 
 ## Prerequisites
 
+### Option A: Docker (Recommended)
+- Docker Engine 20.10+
+- Docker Compose 2.0+
+
+### Option B: Local Development
 - Node.js 18+
 - PostgreSQL 14+
 - npm or yarn
 
-## Installation
+---
+
+## 🐳 Docker Deployment (Recommended)
+
+BugFlow is fully containerized with Docker, making deployment consistent and simple across all environments.
+
+### Quick Start with Docker
+
+```bash
+# Clone the repository
+git clone https://github.com/alexinadev/BugFlow-NextJS.git
+cd BugFlow-NextJS
+
+# Create environment file
+cp .env.example .env
+
+# Start production containers
+docker compose up -d
+
+# View logs
+docker compose logs -f app
+```
+
+That's it! The application will be available at [http://localhost:3000](http://localhost:3000).
+
+### Docker Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    BugFlow Container Stack               │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌──────────────┐       ┌──────────────────────────┐    │
+│  │   bugflow    │       │     bugflow-db           │    │
+│  │     app      │──────▶│     PostgreSQL 16        │    │
+│  │  Next.js 16  │       │                          │    │
+│  │   Port 3000  │       │     Port 5432            │    │
+│  └──────────────┘       └──────────────────────────┘    │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Production Docker Commands
+
+```bash
+# Start all services
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# View app logs only
+docker compose logs -f app
+
+# Stop all services
+docker compose down
+
+# Stop and remove volumes (clean slate)
+docker compose down -v
+
+# Rebuild containers (after dependency changes)
+docker compose up -d --build
+
+# Check container status
+docker compose ps
+
+# Execute command inside container
+docker compose exec app sh
+
+# Access PostgreSQL CLI
+docker compose exec db psql -U bugflow -d bugflow
+```
+
+### Development with Docker
+
+For development with hot-reload support:
+
+```bash
+# Start development containers
+docker compose -f docker-compose.dev.yml up -d
+
+# View logs
+docker compose -f docker-compose.dev.yml logs -f app
+
+# Stop development containers
+docker compose -f docker-compose.dev.yml down
+```
+
+**Development features:**
+- Hot-reload enabled (changes reflect immediately)
+- Source code mounted as volume
+- Separate database volume to not conflict with production
+
+### Docker Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DATABASE_URL` | `postgresql://bugflow:bugflow@db:5432/bugflow` | PostgreSQL connection string |
+| `JWT_SECRET` | `change-this-secret-in-production` | JWT signing secret (CHANGE THIS!) |
+| `NODE_ENV` | `production` | Environment mode |
+
+### Docker Volumes
+
+| Volume | Purpose |
+|--------|---------|
+| `postgres_data` | Persistent PostgreSQL data storage |
+
+### Dockerfile Structure
+
+The production Dockerfile uses a multi-stage build for optimal image size:
+
+```
+Stage 1: base        - Node.js Alpine setup
+Stage 2: deps        - Install dependencies
+Stage 3: builder     - Build the application
+Stage 4: runner      - Production image (~200MB)
+```
+
+### Health Checks
+
+The application includes built-in health checks:
+
+- **App:** `GET /api/health` - Returns `{ "status": "ok" }`
+- **Database:** PostgreSQL readiness check via `pg_isready`
+
+### Troubleshooting Docker Issues
+
+<details>
+<summary>🔧 Common Docker Problems</summary>
+
+#### Container won't start
+
+```bash
+# Check logs for errors
+docker compose logs app
+
+# Common fix: rebuild after dependency changes
+docker compose up -d --build
+```
+
+#### Database connection failed
+
+```bash
+# Check if database is ready
+docker compose exec db pg_isready -U bugflow
+
+# Check database logs
+docker compose logs db
+
+# Restart the database
+docker compose restart db
+```
+
+#### Permission issues
+
+```bash
+# Fix ownership (run as root)
+docker compose exec app sh -c "chown -R nextjs:nodejs /app"
+```
+
+#### Reset everything
+
+```bash
+# Stop and remove all containers, networks, and volumes
+docker compose down -v
+
+# Remove images
+docker rmi bugflow-app bugflow-db
+
+# Start fresh
+docker compose up -d
+```
+
+</details>
+
+---
+
+## 📦 Local Installation (Alternative)
 
 ### 1. Clone the repository
 
