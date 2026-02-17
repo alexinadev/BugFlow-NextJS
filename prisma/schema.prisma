@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String   @unique
+  password  String
+  role      Role     @default(USER)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tickets              Ticket[]
+  comments             Comment[]
+  notifications        Notification[]
+  notificationSettings NotificationSettings?
+}
+
+model Ticket {
+  id                String            @id @default(cuid())
+  title             String
+  description       String
+  stepsToReproduce  String[]
+  severity          Severity
+  status            TicketStatus      @default(pending_verification)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  userEmail         String
+  userFullName      String
+  submitterId       String?
+  category          String?
+  labels            String[]
+  priority          Priority?
+  assignedTo        String[]
+  dueDate           DateTime?
+  estimatedHours    Float?
+  actualHours       Float?
+  resolvedAt        DateTime?
+  resolutionSummary String?
+  environmentDetails Json?
+  attachments       Json?
+
+  submitter User?  @relation(fields: [submitterId], references: [id])
+  comments  Comment[]
+  notifications Notification[]
+  statusHistory StatusHistory[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  ticketId  String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  isPublic  Boolean  @default(true)
+  mentions  String[]
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  ticketId  String
+  userId    String
+  type      NotificationType
+  message   String
+  createdAt DateTime         @default(now())
+  read      Boolean          @default(false)
+  readAt    DateTime?
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model StatusHistory {
+  id        String   @id @default(cuid())
+  ticketId  String
+  status    String
+  changedAt DateTime @default(now())
+  changedBy String
+  reason    String?
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+model NotificationSettings {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  email     Boolean  @default(true)
+  push      Boolean  @default(true)
+  sms       Boolean  @default(false)
+  frequency String   @default("immediate")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Severity {
+  blocking
+  major
+  minor
+  suggestion
+}
+
+enum TicketStatus {
+  pending_verification
+  open
+  in_progress
+  resolved
+  closed
+  incoming
+  acknowledged
+  review
+  triaged
+  investigating
+  pending
+}
+
+enum Priority {
+  urgent
+  high
+  medium
+  low
+}
+
+enum NotificationType {
+  status_change
+  assignment
+  resolution
+  update
+}

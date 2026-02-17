@@ -1,0 +1,19 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-001",
+      "title": "Login page fails to load on mobile devices",
+      "status": "resolved",
+      "priority": "high",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "resolvedAt": "2024-01-18T15:45:00Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "U-001",
+      "name": "John Smith",
+      "email": "john@example.com"
+    }
+  ]
+}
