@@ -18,12 +18,6 @@ done
 
 echo "✅ PostgreSQL is up!"
 
-# Run Prisma migrations
-echo "🔄 Running Prisma migrations..."
-npx prisma migrate deploy
-
-echo "✅ Migrations completed!"
-
 # Start the application
 echo "🎯 Starting Next.js server..."
 exec "$@"
