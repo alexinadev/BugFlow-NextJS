@@ -1,31 +1,45 @@
 ## Tech stack
 
-Define your technical stack below. This serves as a reference for all team members and helps maintain consistency across the project.
+The BugFlow application is a modern full-stack web application built with Next.js and PostgreSQL.
 
 ### Framework & Runtime
-- **Application Framework:** [e.g., Rails, Django, Next.js, Express]
-- **Language/Runtime:** [e.g., Ruby, Python, Node.js, Java]
-- **Package Manager:** [e.g., bundler, pip, npm, yarn]
+- **Application Framework:** Next.js 16.1.6 (standalone mode)
+- **Language/Runtime:** TypeScript 5, Node.js 22
+- **Package Manager:** npm with package-lock.json
 
 ### Frontend
-- **JavaScript Framework:** [e.g., React, Vue, Svelte, Alpine, vanilla JS]
-- **CSS Framework:** [e.g., Tailwind CSS, Bootstrap, custom]
-- **UI Components:** [e.g., shadcn/ui, Material UI, custom library]
+- **JavaScript Framework:** React 19.2.3 with React DOM 19.2.3
+- **CSS Framework:** Tailwind CSS 4 with PostCSS 4
+- **UI Components:** 
+  - Lucide React (icons, v0.574.0)
+  - Recharts (data visualization, v3.7.0)
+  - @dnd-kit (drag & drop functionality - core, sortable, utilities)
+  - @react-pdf/renderer (PDF generation, v4.3.2)
+  - Custom component library in `/components`
 
 ### Database & Storage
-- **Database:** [e.g., PostgreSQL, MySQL, MongoDB]
-- **ORM/Query Builder:** [e.g., ActiveRecord, Prisma, Sequelize]
-- **Caching:** [e.g., Redis, Memcached]
+- **Database:** PostgreSQL 16-alpine
+- **ORM/Query Builder:** Prisma 7.4.0 with @prisma/adapter-pg
+- **Database Client:** pg (node-postgres, v8.18.0)
+- **Caching:** None configured
 
 ### Testing & Quality
-- **Test Framework:** [e.g., Jest, RSpec, pytest]
-- **Linting/Formatting:** [e.g., ESLint, Prettier, RuboCop]
+- **Test Framework:** Not configured (to be implemented)
+- **Linting/Formatting:** ESLint 9 with Next.js and TypeScript configurations
+- **Type Checking:** TypeScript strict mode enabled
 
 ### Deployment & Infrastructure
-- **Hosting:** [e.g., Heroku, AWS, Vercel, Railway]
-- **CI/CD:** [e.g., GitHub Actions, CircleCI]
+- **Containerization:** Docker (multi-stage build with Node 22-alpine)
+- **Orchestration:** Docker Compose with health checks
+- **Build Output:** Standalone Next.js build for optimal Docker image size
+- **CI/CD:** Not configured (ready for GitHub Actions)
+
+### Security & Authentication
+- **Authentication:** JWT-based (jose v6.1.3)
+- **Password Hashing:** bcryptjs (v3.0.3)
+- **Session Management:** JWT tokens with custom implementation
 
 ### Third-Party Services
-- **Authentication:** [e.g., Auth0, Devise, NextAuth]
-- **Email:** [e.g., SendGrid, Postmark]
-- **Monitoring:** [e.g., Sentry, Datadog]
+- **Authentication:** Custom JWT implementation
+- **Email:** Not yet integrated
+- **Monitoring:** Health check endpoints configured in Docker
