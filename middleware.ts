@@ -2,11 +2,17 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // Role-based route access
+// Roles hierarchy: USER < AGENT < MANAGER < ADMIN
 const routePermissions: Record<string, string[]> = {
-  '/submit': ['USER'],
-  '/admin': ['ADMIN'],
-  '/status': ['USER', 'ADMIN'],
-  '/portal': ['USER', 'ADMIN'],
+  '/submit': ['USER', 'AGENT', 'MANAGER'],
+  '/portal': ['USER', 'AGENT', 'MANAGER', 'ADMIN'],
+  '/status': ['USER', 'AGENT', 'MANAGER', 'ADMIN'],
+  '/admin/agent': ['AGENT', 'MANAGER', 'ADMIN'],
+  '/admin/tickets': ['MANAGER', 'ADMIN'],
+  '/admin/analytics': ['MANAGER', 'ADMIN'],
+  '/admin/config': ['MANAGER', 'ADMIN'],
+  '/admin/system': ['ADMIN'],
+  '/admin': ['MANAGER', 'ADMIN'],
 }
 
 export async function middleware(request: NextRequest) {
@@ -57,8 +63,8 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/submit/:path*',
-    '/admin/:path*',
-    '/status/:path*',
     '/portal/:path*',
+    '/status/:path*',
+    '/admin/:path*',
   ],
 }

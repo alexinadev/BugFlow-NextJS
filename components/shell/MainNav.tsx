@@ -10,10 +10,23 @@ interface MainNavProps {
 }
 
 const allNavigationItems: NavigationItem[] = [
-  { label: 'Submit Ticket', href: '/submit', roles: ['USER'] },
-  { label: 'Status Tracking', href: '/status', roles: ['USER', 'ADMIN'] },
-  { label: 'User Portal', href: '/portal', roles: ['USER', 'ADMIN'] },
-  { label: 'Admin Dashboard', href: '/admin', roles: ['ADMIN'] },
+  // USER items
+  { label: 'Submit Ticket', href: '/submit', roles: ['USER', 'AGENT', 'MANAGER'] },
+  { label: 'Your Tickets', href: '/portal', roles: ['USER'] },
+  { label: 'Status Tracking', href: '/status', roles: ['USER', 'AGENT', 'MANAGER', 'ADMIN'] },
+  
+  // AGENT items
+  { label: 'Assigned Tickets', href: '/admin/agent', roles: ['AGENT'] },
+  
+  // MANAGER items
+  { label: 'All Tickets', href: '/admin/tickets', roles: ['MANAGER', 'ADMIN'] },
+  { label: 'Analytics', href: '/admin/analytics', roles: ['MANAGER', 'ADMIN'] },
+  { label: 'Configuration', href: '/admin/config', roles: ['MANAGER', 'ADMIN'] },
+  
+  // ADMIN items
+  { label: 'System Settings', href: '/admin/system', roles: ['ADMIN'] },
+  { label: 'User Management', href: '/admin/system/users', roles: ['ADMIN'] },
+  { label: 'Audit Logs', href: '/admin/system/audit', roles: ['ADMIN'] },
 ]
 
 export function MainNav({ userRole }: MainNavProps) {

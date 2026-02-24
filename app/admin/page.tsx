@@ -13,9 +13,9 @@ export default function AdminPage() {
   const [admins, setAdmins] = useState<{ id: string; name: string }[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  // Redirect non-admins
+  // Redirect users without MANAGER or ADMIN role
   useEffect(() => {
-    if (!authLoading && (!user || user.role !== 'ADMIN')) {
+    if (!authLoading && (!user || !['MANAGER', 'ADMIN'].includes(user.role))) {
       router.push('/')
     }
   }, [user, authLoading, router])
@@ -47,7 +47,7 @@ export default function AdminPage() {
   }, [])
 
   useEffect(() => {
-    if (user && user.role === 'ADMIN') {
+    if (user && ['MANAGER', 'ADMIN'].includes(user.role)) {
       fetchData()
     }
   }, [user, fetchData])
@@ -123,7 +123,7 @@ export default function AdminPage() {
     URL.revokeObjectURL(url)
   }
 
-  if (authLoading || !user || user.role !== 'ADMIN') {
+  if (authLoading || !user || !['MANAGER', 'ADMIN'].includes(user.role)) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-slate-500">Loading...</div>

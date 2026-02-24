@@ -11,6 +11,8 @@ datasource db {
 
 enum Role {
   USER
+  AGENT
+  MANAGER
   ADMIN
 }
 
@@ -21,6 +23,7 @@ model User {
   password  String
   role      Role     @default(USER)
   avatar    String?
+  department String?  // Optional department for IT staff, managers
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -67,6 +70,7 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
   isPublic  Boolean  @default(true)
+  isInternal Boolean @default(false)  // Internal notes visible to IT staff only
   mentions  String[]
 
   ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)

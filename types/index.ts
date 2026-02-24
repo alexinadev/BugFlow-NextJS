@@ -2,7 +2,7 @@
 // Global Data Model Types
 // =============================================================================
 
-export type Role = 'USER' | 'ADMIN'
+export type Role = 'USER' | 'AGENT' | 'MANAGER' | 'ADMIN'
 
 export interface EnvironmentDetails {
   browser: string
@@ -132,4 +132,11 @@ export interface NavigationItem {
   label: string
   href: string
   roles: Role[]
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
+}
+
+// Permission types
+export interface RolePermissions {
+  role: Role
+  permissions: string[]
 }
