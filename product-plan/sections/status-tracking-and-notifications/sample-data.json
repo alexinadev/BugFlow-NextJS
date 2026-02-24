@@ -1,0 +1,27 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-001",
+      "title": "Login page fails to load on mobile devices",
+      "status": "in_progress",
+      "priority": "high",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-16T14:20:00Z",
+      "assignedTo": "Sarah Chen"
+    }
+  ],
+  "users": [
+    {
+      "id": "U-001",
+      "name": "John Smith",
+      "email": "john@example.com",
+      "role": "user",
+      "notificationPreferences": {
+        "email": true,
+        "push": true,
+        "sms": false,
+        "frequency": "immediate"
+      }
+    }
+  ]
+}

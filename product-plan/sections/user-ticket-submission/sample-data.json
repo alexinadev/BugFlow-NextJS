@@ -1,0 +1,26 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-2024-001",
+      "title": "Login page fails to load on Chrome mobile",
+      "description": "When accessing the login page from Chrome on Android, the page loads but the login form never becomes interactive.",
+      "stepsToReproduce": ["Open Chrome on Android", "Navigate to login page", "Wait for page to load"],
+      "severity": "major",
+      "status": "pending_verification",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-15T10:30:00Z",
+      "userEmail": "user@example.com",
+      "userFullName": "Test User",
+      "environmentDetails": {
+        "browser": "Chrome",
+        "browserVersion": "121.0",
+        "os": "Android",
+        "osVersion": "13",
+        "deviceType": "Mobile",
+        "screenResolution": "1080x2340",
+        "windowSize": "393x852"
+      },
+      "attachments": []
+    }
+  ]
+}

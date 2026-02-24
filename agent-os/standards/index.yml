@@ -1,2 +1,49 @@
 # Agent OS Standards Index
 
+api:
+  auth-and-role-check:
+    description: Authentication verification and role-based authorization in routes
+  auth-response-format:
+    description: Authentication API response envelope structure and error format
+  dynamic-route-params:
+    description: Extracting route parameters using Promise pattern in Next.js 15+
+  http-status-codes:
+    description: Consistent HTTP status codes for different response scenarios
+  request-validation:
+    description: Validating required fields in request body payloads
+  response-envelope-format:
+    description: Consistent success/error response structure across all endpoints
+  try-catch-error-handling:
+    description: Error handling with try-catch and console logging in routes
+
+backend:
+  jwt-tokens:
+    description: JWT token management with httpOnly cookies and security configuration
+  password-hashing:
+    description: Password hashing with bcryptjs and security best practices
+  phone-auth:
+    description: Phone number as primary authentication identifier
+  role-based-access:
+    description: Role-based access control enforced at middleware layer
+
+database:
+  enums-and-types:
+    description: Prisma enums for type safety and domain modeling
+  foreign-key-relations:
+    description: Foreign key cascade deletion pattern for data integrity
+
+frontend:
+  auth-context-pattern:
+    description: React Context API pattern for client-side authentication state
+  client-component-pattern:
+    description: Using 'use client' directive for interactive components
+  component-composition:
+    description: Composing large features from smaller, focused components
+  component-folder-structure:
+    description: Organizing components by feature/domain, not by type
+  component-props-typing:
+    description: Explicit props interfaces for type-safe components
+  index-file-exports:
+    description: Index.ts file pattern for clean component imports
+  state-and-hooks-pattern:
+    description: Managing local vs lifted state with React hooks
